@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -34,12 +35,26 @@ public class Orders implements Serializable {
 
    @ManyToOne
    @JoinColumn(name="shipped_form", referencedColumnName = "id")
+   @EqualsAndHashCode.Exclude
     private Location location;
 
    @ManyToOne
    @JoinColumn(name = "customer", referencedColumnName = "id")
+   @EqualsAndHashCode.Exclude
     private Customer customer;
 
    @OneToMany(mappedBy = "orders")
+   @EqualsAndHashCode.Exclude
     private List<OrderDetail> orderDetails;
+
+    public Orders(Integer id, LocalDateTime createAt, String country, String city, String county, String streetAddress, Location location, Customer customer) {
+        this.id = id;
+        this.createAt = createAt;
+        this.country = country;
+        this.city = city;
+        this.county = county;
+        this.streetAddress = streetAddress;
+        this.location = location;
+        this.customer = customer;
+    }
 }

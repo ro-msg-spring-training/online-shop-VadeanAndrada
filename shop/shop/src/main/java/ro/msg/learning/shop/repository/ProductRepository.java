@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ro.msg.learning.shop.entity.Product;
 
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+    Product findProductByName(String name);
 }

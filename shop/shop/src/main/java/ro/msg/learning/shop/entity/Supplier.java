@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +18,13 @@ public class Supplier implements Serializable{
     @Column(name="name")
     private String name;
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private List<Product> products;
+
+    public Supplier(Integer id, String name) {
+         this.id = id;
+        this.name = name;
+    }
 
 }

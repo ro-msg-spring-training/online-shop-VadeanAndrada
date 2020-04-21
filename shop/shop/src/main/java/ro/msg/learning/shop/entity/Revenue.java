@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Revenue implements Serializable {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "location", referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
     private Location location;
 
     @Column(name = "datee")

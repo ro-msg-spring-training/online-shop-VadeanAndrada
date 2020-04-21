@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,10 +8,12 @@ import java.math.BigDecimal;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name="product")
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
 public class Product implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +30,11 @@ public class Product implements Serializable{
 
     private Double weight;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category", referencedColumnName = "id")
     private ProductCategory productCategory;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "supplier", referencedColumnName = "id")
     private Supplier supplier;
 
@@ -41,8 +42,21 @@ public class Product implements Serializable{
     private String imageUrl;
 
     @OneToMany(mappedBy = "product")
+    @EqualsAndHashCode.Exclude
     private List<Stock> stocks;
 
     @OneToMany(mappedBy = "product")
+    @EqualsAndHashCode.Exclude
     private  List<OrderDetail>  orderDetails;
+
+    public Product(Integer id, String name, String description, BigDecimal price, Double weight, ProductCategory productCategory, Supplier supplier, String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.weight = weight;
+        this.productCategory = productCategory;
+        this.supplier = supplier;
+        this.imageUrl = imageUrl;
+    }
 }
