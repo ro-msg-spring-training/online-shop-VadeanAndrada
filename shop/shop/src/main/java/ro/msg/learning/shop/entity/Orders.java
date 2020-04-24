@@ -1,8 +1,6 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,10 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
-@Table(name="orders")
+@Table(name="order")
 @NoArgsConstructor
-public class Orders implements Serializable {
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -35,26 +36,13 @@ public class Orders implements Serializable {
 
    @ManyToOne
    @JoinColumn(name="shipped_form", referencedColumnName = "id")
-   @EqualsAndHashCode.Exclude
     private Location location;
 
    @ManyToOne
-   @JoinColumn(name = "customer", referencedColumnName = "id")
-   @EqualsAndHashCode.Exclude
+   @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
    @OneToMany(mappedBy = "orders")
-   @EqualsAndHashCode.Exclude
     private List<OrderDetail> orderDetails;
 
-    public Orders(Integer id, LocalDateTime createAt, String country, String city, String county, String streetAddress, Location location, Customer customer) {
-        this.id = id;
-        this.createAt = createAt;
-        this.country = country;
-        this.city = city;
-        this.county = county;
-        this.streetAddress = streetAddress;
-        this.location = location;
-        this.customer = customer;
-    }
 }

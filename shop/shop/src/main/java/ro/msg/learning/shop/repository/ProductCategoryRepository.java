@@ -4,7 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ro.msg.learning.shop.entity.ProductCategory;
 
-@Repository
+import java.util.Optional;
+
+
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Integer> {
-    ProductCategory findProductCategoryByName(String name);
+    Optional<ProductCategory> findProductCategoryByName(String name);
 }

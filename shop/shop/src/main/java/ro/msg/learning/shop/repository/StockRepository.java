@@ -1,13 +1,17 @@
 package ro.msg.learning.shop.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import ro.msg.learning.shop.entity.Location;
 import ro.msg.learning.shop.entity.Product;
 import ro.msg.learning.shop.entity.Stock;
-import ro.msg.learning.shop.entity.idClass.StockID;
+import ro.msg.learning.shop.entity.StockId;
 
-@Repository
-public interface StockRepository extends JpaRepository<Stock, StockID> {
-    Stock findStockByLocationAndProduct(Location location, Product product);
+import java.util.List;
+import java.util.Optional;
+
+public interface StockRepository extends JpaRepository<Stock, StockId> {
+    Optional<Stock> findStockByLocationAndProduct(Location location, Product product);
+    Optional<Stock> findStockByLocation(Location location);
+    Optional<Stock> findStockByProduct(Product product);
+    List<Stock> findAllStockByProduct(Product product);
 }

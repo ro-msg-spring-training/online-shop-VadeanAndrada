@@ -1,8 +1,6 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,9 +8,12 @@ import java.util.List;
 
 @Entity
 @Table(name="customer")
-@Data
 @NoArgsConstructor
-public class Customer implements Serializable {
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -33,15 +34,6 @@ public class Customer implements Serializable {
     private String emailAddress;
 
     @OneToMany(mappedBy = "customer")
-    @EqualsAndHashCode.Exclude
     private List<Orders> orders;
 
-    public Customer(Integer id, String firstName, String lastName, String username, String password, String emailAddress) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.emailAddress = emailAddress;
-    }
 }

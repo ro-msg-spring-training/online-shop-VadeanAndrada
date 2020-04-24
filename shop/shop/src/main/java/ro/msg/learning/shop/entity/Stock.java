@@ -1,39 +1,33 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import ro.msg.learning.shop.DTO.LocationDTO;
-import ro.msg.learning.shop.DTO.ProductDTO;
-import ro.msg.learning.shop.entity.idClass.StockID;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Table(name="stock")
-@Data
 @Entity
+@IdClass(StockId.class)
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@IdClass(StockID.class)
 public class Stock implements Serializable {
+    @Id
+    @Column(name = "location_id")
+    private Integer locationId;
 
     @Id
+    @Column(name = "product_id")
+    private Integer productId;
+
     @ManyToOne
-    @JoinColumn(name = "location", referencedColumnName = "id")
-    @EqualsAndHashCode.Exclude
+    @JoinColumn(name = "location_id", referencedColumnName = "id",insertable = false, updatable = false)
     private Location location;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "product", referencedColumnName = "id")
-    @EqualsAndHashCode.Exclude
+    @JoinColumn(name = "product_id", referencedColumnName = "id",insertable = false, updatable = false)
     private Product product;
-
     private Integer quantity;
-
-    public Stock(Location location, Product product, Integer quantity) {
-        this.location = location;
-        this.product = product;
-        this.quantity = quantity;
-    }
 }

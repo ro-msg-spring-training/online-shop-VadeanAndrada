@@ -8,23 +8,20 @@ import java.util.List;
 
 @Entity
 @Table(name="supplier")
-@Data
 @NoArgsConstructor
-public class Supplier implements Serializable{
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="name")
+    @Column(name="name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
     private List<Product> products;
-
-    public Supplier(Integer id, String name) {
-         this.id = id;
-        this.name = name;
-    }
 
 }

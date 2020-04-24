@@ -1,9 +1,19 @@
 package ro.msg.learning.shop.service;
 
-import ro.msg.learning.shop.DTO.LocationDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.entity.Location;
+import ro.msg.learning.shop.repository.LocationRepository;
+
 
 import java.util.List;
 
-public interface LocationService {
-    List<LocationDTO> findAll();
+@Service
+@RequiredArgsConstructor
+public class LocationService  {
+    private final LocationRepository locationRepository;
+
+    public List<Location> findAll() {
+        return locationRepository.findAll();
+    }
 }

@@ -1,10 +1,11 @@
 package ro.msg.learning.shop.strategy;
 
-import ro.msg.learning.shop.DTO.OrderDTOView;
-import ro.msg.learning.shop.DTO.StockDTO;
+import ro.msg.learning.shop.dto.OrderDtoView;
+import ro.msg.learning.shop.dto.StockDto;
+import ro.msg.learning.shop.entity.Stock;
 
 import java.util.List;
 
 public interface LocationStrategy {
-    List<StockDTO>  getLocation (OrderDTOView orderDTOView);
+    List<Stock>  getLocation (List<Stock> productsList);
 }

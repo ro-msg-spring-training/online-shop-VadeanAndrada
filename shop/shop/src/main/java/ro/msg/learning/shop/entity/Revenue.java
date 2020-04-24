@@ -1,32 +1,33 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="revenue")
-@Data
 @NoArgsConstructor
-public class Revenue implements Serializable {
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+public class Revenue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "location", referencedColumnName = "id")
-    @EqualsAndHashCode.Exclude
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
-    @Column(name = "datee")
-    @Temporal(TemporalType.DATE)
-    private Date localDate;
+    @Column(name = "date")
+  //  @Temporal(TemporalType.DATE)
+    private LocalDate localDate;
 
     @Column(name="sum")
     private BigDecimal sum;

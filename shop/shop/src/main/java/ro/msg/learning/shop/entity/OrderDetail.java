@@ -1,36 +1,35 @@
 package ro.msg.learning.shop.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import ro.msg.learning.shop.entity.idClass.OrderDetailID;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
 @Table(name="order_detail")
 @NoArgsConstructor
-@IdClass(OrderDetailID.class)
+@IdClass(OrderDetailId.class)
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class OrderDetail implements Serializable {
     @Id
-    @ManyToOne
-    @JoinColumn(name = "orders", referencedColumnName = "id")
-    @EqualsAndHashCode.Exclude
-    private Orders orders;
+    @Column(name = "order_id")
+    private Integer orderId;
 
     @Id
+    @Column(name = "product_id")
+    private Integer productId;
+
     @ManyToOne
-    @JoinColumn(name = "product", referencedColumnName = "id")
-    @EqualsAndHashCode.Exclude
+    @JoinColumn(name = "order_id", referencedColumnName = "id",insertable = false, updatable = false)
+    private Orders orders;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id",insertable = false, updatable = false)
     private Product product;
 
     private Integer quantity;
 
-    public OrderDetail(Orders orders, Product product, Integer quantity) {
-        this.orders = orders;
-        this.product = product;
-        this.quantity = quantity;
-    }
 }

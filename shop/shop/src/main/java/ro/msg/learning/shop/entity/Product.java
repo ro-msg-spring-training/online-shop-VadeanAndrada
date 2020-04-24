@@ -8,18 +8,20 @@ import java.math.BigDecimal;
 
 import java.util.List;
 
-@Data
+
 @Entity
 @Table(name="product")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product implements Serializable{
+@Builder
+@AllArgsConstructor
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name="description")
@@ -31,32 +33,20 @@ public class Product implements Serializable{
     private Double weight;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "category", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private ProductCategory productCategory;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "supplier", referencedColumnName = "id")
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
     private Supplier supplier;
 
     @Column(name="image_url")
     private String imageUrl;
 
     @OneToMany(mappedBy = "product")
-    @EqualsAndHashCode.Exclude
     private List<Stock> stocks;
 
     @OneToMany(mappedBy = "product")
-    @EqualsAndHashCode.Exclude
     private  List<OrderDetail>  orderDetails;
 
-    public Product(Integer id, String name, String description, BigDecimal price, Double weight, ProductCategory productCategory, Supplier supplier, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.weight = weight;
-        this.productCategory = productCategory;
-        this.supplier = supplier;
-        this.imageUrl = imageUrl;
-    }
 }
