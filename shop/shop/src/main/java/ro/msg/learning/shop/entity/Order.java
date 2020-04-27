@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="order")
+@Table(name = "orders")
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
-public class Orders {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -34,15 +34,15 @@ public class Orders {
     @Column(name="street_address")
     private String streetAddress;
 
-   @ManyToOne
+   @ManyToOne(cascade = CascadeType.MERGE)
    @JoinColumn(name="shipped_form", referencedColumnName = "id")
     private Location location;
 
-   @ManyToOne
+   @ManyToOne(cascade = CascadeType.MERGE)
    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-   @OneToMany(mappedBy = "orders")
+   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
 }

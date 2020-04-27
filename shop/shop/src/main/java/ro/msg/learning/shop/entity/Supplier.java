@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Supplier {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

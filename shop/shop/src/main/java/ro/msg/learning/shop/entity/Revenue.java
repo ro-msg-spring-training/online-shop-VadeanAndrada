@@ -26,7 +26,6 @@ public class Revenue {
     private Location location;
 
     @Column(name = "date")
-  //  @Temporal(TemporalType.DATE)
     private LocalDate localDate;
 
     @Column(name="sum")

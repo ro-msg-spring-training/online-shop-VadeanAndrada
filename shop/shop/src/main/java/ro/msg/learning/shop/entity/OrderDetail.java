@@ -22,11 +22,11 @@ public class OrderDetail implements Serializable {
     @Column(name = "product_id")
     private Integer productId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "order_id", referencedColumnName = "id",insertable = false, updatable = false)
-    private Orders orders;
+    private Order order;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id", referencedColumnName = "id",insertable = false, updatable = false)
     private Product product;
 

@@ -20,6 +20,8 @@ public class OrdersDto {
     private String county;
     private String streetAddress;
     private Integer locationId;
+    private String locationName;
     private Integer customerId;
+    private String customerName;
 
 }

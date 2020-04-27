@@ -8,6 +8,7 @@ import ro.msg.learning.shop.entity.Stock;
 import ro.msg.learning.shop.exception.NoObjectFoundException;
 import ro.msg.learning.shop.repository.StockRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
