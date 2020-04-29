@@ -13,6 +13,8 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -22,26 +24,19 @@ public class SingleLocation implements LocationStrategy {
 
     @Override
     @Transactional
-    public Map<Location, Map<Product, Integer>> getLocation(Map<Product, Integer> productQuantity) {
+    public Map<Location, Map<Product, Integer>> getLocation(Map<Product, Integer> productQuantity) throws StrategyException {
         Map<Location, Map<Product, Integer>> productLocationQuantity = new HashMap<>();
         List<Location> locations = locationService.findAll();
-        Location locationFound = locations.stream()
-                .findFirst()
+        List<Location> locationFound = locations.stream()
                 .filter(location -> productQuantity.entrySet().stream()
-                        .allMatch(productsList -> stockService.findByLocationAndProduct(location, productsList.getKey()).isPresent() ?
-                                stockService.findByLocationAndProduct(location, productsList.getKey()).get().getQuantity() >= productsList.getValue() : false))
-                .orElseThrow(() -> new StrategyException("Cannot find a location using `Single Location` strategy!"));
-        updateStock(productQuantity, locationFound);
-        productLocationQuantity.put(locationFound, productQuantity);
-        return productLocationQuantity;
+                        .allMatch(productsList -> {
+                            Optional<Stock> stock = stockService.findStockByLocationAndProduct(location, productsList.getKey());
+                            return stock.filter(value -> value.getQuantity() >= productsList.getValue()).isPresent();
+                        }))
+                .collect(Collectors.toList());
+        if (!locationFound.isEmpty()) {
+            productLocationQuantity.put(locationFound.get(0), productQuantity);
+            return productLocationQuantity;
+        } else throw new StrategyException("Cannot find a location using `Single Location` strategy!");
     }
-
-    @Transactional
-    private void updateStock(Map<Product, Integer> productQuantity, Location location) {
-        for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
-            Stock stockForUpdate = stockService.findByLocationAndProduct(location, entry.getKey()).get();
-            stockForUpdate.setQuantity(stockForUpdate.getQuantity() - entry.getValue());
-        }
-    }
-
 }

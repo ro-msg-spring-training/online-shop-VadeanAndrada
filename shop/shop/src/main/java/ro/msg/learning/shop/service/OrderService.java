@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.entity.*;
 import ro.msg.learning.shop.repository.OrderRepository;
@@ -11,14 +10,15 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    private final StockService stockService;
     private final LocationStrategy createOrderStrategy;
     private final OrderRepository orderRepository;
     private final OrderDetailService orderDetailService;
+    private final StockService stockService;
 
     @Transactional
     public List<Order> createOrder(Map<Product, Integer> productQuantity, Order order) {
@@ -30,9 +30,15 @@ public class OrderService {
             orders.add(savedOrder);
             for (Map.Entry<Product, Integer> productQuantityEntry : locProdQuan.getValue().entrySet()) {
                 OrderDetail orderDetail = OrderDetail.builder().order(orderForSave).orderId(orderForSave.getId()).productId(productQuantityEntry.getKey().getId()).quantity(productQuantityEntry.getValue()).product(productQuantityEntry.getKey()).build();
-                OrderDetail savedOrderDet = orderDetailService.save(orderDetail);
+                orderDetailService.save(orderDetail);
+                Optional<Stock> stockForUpdate = stockService.findStockByLocationAndProduct(locProdQuan.getKey(), productQuantityEntry.getKey());
+                stockForUpdate.ifPresent(stock -> stock.setQuantity(stock.getQuantity() - productQuantityEntry.getValue()));
             }
         }
         return orders;
+    }
+
+    public void deleteAll() {
+        orderRepository.deleteAll();
     }
 }

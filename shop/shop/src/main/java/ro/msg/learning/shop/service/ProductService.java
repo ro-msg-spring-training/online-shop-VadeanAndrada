@@ -37,13 +37,16 @@ public class ProductService {
     }
 
     public Product update(Product product) {
-        Product oldProduct = readById(product.getId());
         if (productRepository.findProductByName(product.getName()).isPresent()
                 && !productRepository.findProductByName(product.getName()).get().getId().equals(product.getId())) {
             throw new ProductExistsException("There is a product with the same name!");
         } else {
             return productRepository.save(product);
         }
+    }
+
+    public void deleteAll(){
+        productRepository.deleteAll();
     }
 
 }

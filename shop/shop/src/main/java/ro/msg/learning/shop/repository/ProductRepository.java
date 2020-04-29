@@ -6,6 +6,6 @@ import ro.msg.learning.shop.entity.Product;
 import java.util.Optional;
 
 
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface  ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product> findProductByName(String name);
 }

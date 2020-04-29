@@ -11,8 +11,15 @@ import ro.msg.learning.shop.repository.CustomerRepository;
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
-    public Customer findById (Integer id){
+    public Customer findById (Integer id) {
         return customerRepository.findById(id).orElseThrow(() -> new NoObjectFoundException("There is no Customer with id: " + id));
+    }
+    public void saveCustomer(Customer customer){
+        customerRepository.save(customer);
+    }
+
+    public void deleteAll(){
+        customerRepository.deleteAll();
     }
 
 }

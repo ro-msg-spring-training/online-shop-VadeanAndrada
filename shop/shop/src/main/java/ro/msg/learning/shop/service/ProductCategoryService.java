@@ -8,11 +8,19 @@ import ro.msg.learning.shop.repository.ProductCategoryRepository;
 
 @Service
 @RequiredArgsConstructor
-public class ProductCategoryService  {
+public class ProductCategoryService {
     private final ProductCategoryRepository productCategoryRepository;
 
     public ProductCategory findByName(String name) {
         return productCategoryRepository.findProductCategoryByName(name)
-                .orElseThrow(() ->  new NoObjectFoundException("There is no productCategory with this name: " + name));
+                .orElseThrow(() -> new NoObjectFoundException("There is no productCategory with this name: " + name));
+    }
+
+    public void saveProductCategory(ProductCategory productCategory) {
+        productCategoryRepository.save(productCategory);
+    }
+
+    public void deleteAll(){
+        productCategoryRepository.deleteAll();
     }
 }

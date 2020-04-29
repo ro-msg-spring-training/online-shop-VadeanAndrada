@@ -6,7 +6,6 @@ import ro.msg.learning.shop.entity.Location;
 import ro.msg.learning.shop.entity.Product;
 import ro.msg.learning.shop.entity.Stock;
 import ro.msg.learning.shop.exception.StrategyException;
-import ro.msg.learning.shop.service.LocationService;
 import ro.msg.learning.shop.service.StockService;
 
 import javax.transaction.Transactional;
@@ -16,16 +15,14 @@ import java.util.*;
 @Component
 @RequiredArgsConstructor
 public class MostAbundant implements LocationStrategy {
-    private final LocationService locationService;
     private final StockService stockService;
 
     @Override
     @Transactional
-    public Map<Location, Map<Product, Integer>> getLocation(Map<Product, Integer> productQuantity) {
-        List<Location> locationsFound = new ArrayList<>();
+    public Map<Location, Map<Product, Integer>> getLocation(Map<Product, Integer> productQuantity) throws StrategyException{
         Map<Location, Map<Product, Integer>> productLocationQuantity = new HashMap<>();
         for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
-            Location location = stockService.findAllByProduct(entry.getKey())
+            Location location = stockService.findAllProduct(entry.getKey())
                     .stream()
                     .filter(s -> s.getQuantity() >= entry.getValue())
                     .max(Comparator.comparing(Stock::getQuantity))
@@ -39,8 +36,6 @@ public class MostAbundant implements LocationStrategy {
                 productQuantityUpdated.put(entry.getKey(), entry.getValue());
                 productLocationQuantity.put(location, productQuantityUpdated);
             }
-            Stock updatedStock = stockService.findByLocationAndProduct(location, entry.getKey()).get();
-            updatedStock.setQuantity(updatedStock.getQuantity() - entry.getValue());
         }
         return productLocationQuantity;
     }
