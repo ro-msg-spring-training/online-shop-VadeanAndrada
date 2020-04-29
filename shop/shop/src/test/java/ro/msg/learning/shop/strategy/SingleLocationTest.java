@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,7 +56,7 @@ public class SingleLocationTest {
 
         Map<Location, Map<Product, Integer>> productLocationQuantity = new HashMap<>();
         productLocationQuantity.put(location1, productQuantity);
-        assert (singleLocation.getLocation(productQuantity).equals(productLocationQuantity));
+        assertEquals(singleLocation.getLocation(productQuantity), productLocationQuantity);
     }
 
     @Test
@@ -69,16 +70,12 @@ public class SingleLocationTest {
         productQuantity.put(product2, 400);
         Location location1 = Location.builder().name("Altex Cluj Iulius Mall").city("Cluj-Napoca").country("Romania").county("Cluj").streetAddress("Strada Alexandru Voievod 53-55").build();
         Location location2 = Location.builder().name("Altex").city("Cluj-Napoca").country("Romania").county("Cluj").streetAddress("Galeriile Auchan, Bulevardul Muncii 1-15").build();
-//        Stock stock1 = Stock.builder().location(location1).product(product1).quantity(80).build();
-//        Stock stock2 = Stock.builder().location(location1).product(product2).quantity(60).build();
-//        Stock stock3 = Stock.builder().location(location2).product(product1).quantity(40).locationId(location2.getId()).productId(product1.getId()).build();
-//        Stock stock4 = Stock.builder().location(location2).product(product2).quantity(200).locationId(location2.getId()).productId(product2.getId()).build();
         List<Location> locations = new ArrayList<>();
         locations.add(location1);
         locations.add(location2);
         Mockito.when(locationService.findAll()).thenReturn(locations);
         Throwable exception = assertThrows(StrategyException.class, () -> singleLocation.getLocation(productQuantity));
-        assert ("Cannot find a location using `Single Location` strategy!".equals(exception.getMessage()));
+        assertEquals("Cannot find a location using `Single Location` strategy!", exception.getMessage());
 
     }
 

@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -72,7 +73,7 @@ public class MostAbundantTest {
         productLocationQuantity.put(location1, productQuantityLoc1);
         productLocationQuantity.put(location2, productQuantityLoc2);
 
-        assert (mostAbundant.getLocation(productQuantity).equals(productLocationQuantity));
+        assertEquals(mostAbundant.getLocation(productQuantity), productLocationQuantity);
     }
 
     @Test
@@ -108,7 +109,7 @@ public class MostAbundantTest {
         Mockito.when(stockService.findAllProduct(product2)).thenReturn(stocksProd2);
 
         Throwable exception = assertThrows(StrategyException.class, () -> mostAbundant.getLocation(productQuantity));
-        assert ("Cannot find a location using `Most Abundant` strategy!".equals(exception.getMessage()));
+        assertEquals("Cannot find a location using `Most Abundant` strategy!", exception.getMessage());
     }
 
 }
