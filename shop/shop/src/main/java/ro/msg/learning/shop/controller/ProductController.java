@@ -29,7 +29,7 @@ public class ProductController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-        Supplier supplier = supplierService.findByName(productDto.getSupplierName());
+        Supplier supplier = supplierService.findSupplierByName(productDto.getSupplierName());
         ProductCategory productCategory = productCategoryService.findByName(productDto.getCategoryName());
         Product product = ProductBuilder.returnEntityFromDto(productDto, supplier, productCategory);
         Product savedProduct = productService.create(product);
@@ -43,7 +43,7 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> readAllProducts() {
         List<ProductDto> productDtos = productService.readAll()
                 .stream()
-                .map(p -> ProductBuilder.returnDtoFromEntity(p))
+                .map(ProductBuilder::returnDtoFromEntity)
                 .collect(Collectors.toList());
 
         HttpHeaders headers = new HttpHeaders();
@@ -72,7 +72,7 @@ public class ProductController {
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-        Supplier supplier = supplierService.findByName(productDto.getSupplierName());
+        Supplier supplier = supplierService.findSupplierByName(productDto.getSupplierName());
         ProductCategory productCategory = productCategoryService.findByName(productDto.getCategoryName());
         Product product = ProductBuilder.returnEntityFromDto(productDto, supplier, productCategory);
         Product updatedProduct = productService.update(product);

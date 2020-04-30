@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS revenue
   foreign key (location_id) references location
   );
 
-CREATE TABLE IF NOT EXISTS `order`
+CREATE TABLE IF NOT EXISTS orders
  (ID INT  AUTO_INCREMENT primary key,
   shipped_form int,
   customer_id int,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS order_detail
   product_id int,
   quantity int,
   foreign key (product_id) references product,
-  foreign key (order_id) references `order`,
+  foreign key (order_id) references orders,
   primary key (order_id, product_id)
   );
 

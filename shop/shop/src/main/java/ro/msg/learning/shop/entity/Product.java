@@ -3,7 +3,6 @@ package ro.msg.learning.shop.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -43,10 +42,10 @@ public class Product {
     @Column(name="image_url")
     private String imageUrl;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Stock> stocks;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private  List<OrderDetail>  orderDetails;
 
 }

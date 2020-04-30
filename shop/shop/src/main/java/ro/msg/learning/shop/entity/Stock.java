@@ -22,11 +22,11 @@ public class Stock implements Serializable {
     @Column(name = "product_id")
     private Integer productId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "id",insertable = false, updatable = false)
     private Location location;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id",insertable = false, updatable = false)
     private Product product;
     private Integer quantity;

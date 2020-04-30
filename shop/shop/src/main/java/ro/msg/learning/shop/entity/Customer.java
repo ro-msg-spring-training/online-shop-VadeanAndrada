@@ -3,7 +3,6 @@ package ro.msg.learning.shop.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -33,7 +32,7 @@ public class Customer {
     @Column(name="email_address")
     private String emailAddress;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Orders> orders;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 }

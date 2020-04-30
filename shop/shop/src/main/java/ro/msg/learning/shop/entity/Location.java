@@ -3,7 +3,6 @@ package ro.msg.learning.shop.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -33,13 +32,13 @@ public class Location {
     @Column(name="street_address")
     private String streetAddress;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<Revenue> revenues;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<Stock> stocks;
 
-    @OneToMany(mappedBy = "location")
-    private List<Orders> orders;
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 }
