@@ -25,8 +25,10 @@ public class SingleLocation implements LocationStrategy {
     @Override
     @Transactional
     public Map<Location, Map<Product, Integer>> getLocation(Map<Product, Integer> productQuantity) throws StrategyException {
+
         Map<Location, Map<Product, Integer>> productLocationQuantity = new HashMap<>();
         List<Location> locations = locationService.findAll();
+
         List<Location> locationFound = locations.stream()
                 .filter(location -> productQuantity.entrySet().stream()
                         .allMatch(productsList -> {

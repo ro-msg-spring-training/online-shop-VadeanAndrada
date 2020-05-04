@@ -30,7 +30,11 @@ public class OrderProfileController {
     @PostMapping(value = "/populate", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<String> populateDb() {
-        Customer customer = Customer.builder().id(1).firstName("George").lastName("Popescu").build();
+
+        Customer customer1 = Customer.builder().firstName("George").lastName("Popescu").username("george.popescu").password("parola").build();
+        Customer customer2 = Customer.builder().firstName("Teodor").lastName("Vaida").username("teodor.vaida").password("parola").build();
+        Customer customer3 = Customer.builder().firstName("Raul").lastName("Grumazescu").username("raul.grumazescu").password("parola").build();
+        Customer customer4 = Customer.builder().firstName("Marius").lastName("Grigor").username("marius.grigor").password("parola").build();
         Supplier supplier = Supplier.builder().id(1).name("ALTEX").build();
         ProductCategory productCategory = ProductCategory.builder().id(1).name("Mouse Hama").build();
         Product product1 = Product.builder().id(1).productCategory(productCategory).supplier(supplier).name("Mouse wireless Hama AM-8000").price(BigDecimal.valueOf(29.99)).weight(0.33).build();
@@ -45,7 +49,10 @@ public class OrderProfileController {
         Stock stock5 = Stock.builder().location(location2).product(product3).quantity(80).locationId(location2.getId()).productId(product3.getId()).build();
         Stock stock6 = Stock.builder().location(location1).product(product3).quantity(30).locationId(location1.getId()).productId(product3.getId()).build();
 
-        customerService.saveCustomer(customer);
+        customerService.saveCustomer(customer1);
+        customerService.saveCustomer(customer2);
+        customerService.saveCustomer(customer3);
+        customerService.saveCustomer(customer4);
         supplierService.create(supplier);
         productCategoryService.saveProductCategory(productCategory);
         locationService.saveLocation(location1);

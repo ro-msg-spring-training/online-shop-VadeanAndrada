@@ -29,6 +29,7 @@ public class ProductController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+
         Supplier supplier = supplierService.findSupplierByName(productDto.getSupplierName());
         ProductCategory productCategory = productCategoryService.findByName(productDto.getCategoryName());
         Product product = ProductBuilder.returnEntityFromDto(productDto, supplier, productCategory);
@@ -41,6 +42,7 @@ public class ProductController {
 
     @GetMapping(value = "/readAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ProductDto>> readAllProducts() {
+
         List<ProductDto> productDtos = productService.readAll()
                 .stream()
                 .map(ProductBuilder::returnDtoFromEntity)
@@ -53,6 +55,7 @@ public class ProductController {
 
     @GetMapping(value = "/readById", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> readProductById(@RequestParam Integer idProduct) {
+
         Product product = productService.readById(idProduct);
 
         HttpHeaders headers = new HttpHeaders();
@@ -62,6 +65,7 @@ public class ProductController {
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> deleteProduct(@RequestParam Integer idProduct) {
+
         Product deletedProduct = productService.delete(idProduct);
 
         HttpHeaders headers = new HttpHeaders();
@@ -72,6 +76,7 @@ public class ProductController {
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+
         Supplier supplier = supplierService.findSupplierByName(productDto.getSupplierName());
         ProductCategory productCategory = productCategoryService.findByName(productDto.getCategoryName());
         Product product = ProductBuilder.returnEntityFromDto(productDto, supplier, productCategory);

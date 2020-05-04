@@ -19,17 +19,15 @@ public class StockService {
         return stockRepository.findStockByLocationAndProduct(location, product);
     }
 
-    public Stock create(Stock stock) {
-        return stockRepository.save(stock);
+    public void create(Stock stock) {
+        stockRepository.save(stock);
     }
 
     public List<Stock> findAllProduct(Product product) {
         return stockRepository.findAllStockByProduct(product);
     }
 
-    public List<Stock> deleteAllStocks() {
-        List<Stock> deletedStocks = stockRepository.findAll();
+    public void deleteAllStocks() {
         stockRepository.deleteAll();
-        return deletedStocks;
     }
 }
