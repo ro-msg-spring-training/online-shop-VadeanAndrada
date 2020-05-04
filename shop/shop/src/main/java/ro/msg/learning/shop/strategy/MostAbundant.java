@@ -20,7 +20,9 @@ public class MostAbundant implements LocationStrategy {
     @Override
     @Transactional
     public Map<Location, Map<Product, Integer>> getLocation(Map<Product, Integer> productQuantity) throws StrategyException{
+
         Map<Location, Map<Product, Integer>> productLocationQuantity = new HashMap<>();
+
         for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
             Location location = stockService.findAllProduct(entry.getKey())
                     .stream()
@@ -37,6 +39,7 @@ public class MostAbundant implements LocationStrategy {
                 productLocationQuantity.put(location, productQuantityUpdated);
             }
         }
+
         return productLocationQuantity;
     }
 

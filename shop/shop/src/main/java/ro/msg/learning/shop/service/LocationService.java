@@ -16,9 +16,11 @@ public class LocationService  {
     public List<Location> findAll() {
         return locationRepository.findAll();
     }
+
     public void saveLocation(Location location){
         locationRepository.save(location);
     }
+
     public void deleteAll() {
         locationRepository.deleteAll();
     }

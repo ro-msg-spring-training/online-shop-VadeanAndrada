@@ -5,5 +5,4 @@ import ro.msg.learning.shop.entity.OrderDetail;
 import ro.msg.learning.shop.entity.OrderDetailId;
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, OrderDetailId> {
-
 }
